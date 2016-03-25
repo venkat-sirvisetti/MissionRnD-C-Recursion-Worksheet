@@ -30,6 +30,7 @@ int main(){
 	printf("%d\n", check);
 	*/
 
-	
+	int check = get_steps(5);
+	printf("%d\n", check);
 	return 0;
 }

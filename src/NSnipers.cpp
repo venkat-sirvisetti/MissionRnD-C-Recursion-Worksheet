@@ -41,8 +41,108 @@ Read :How to access elements in 2D array when its first element address is passe
 
 P.S: The Above Problem is just a modified version of a popular BackTracking problem .
 */
-
 #include "stdafx.h"
-int solve_nsnipers(int *battlefield, int n){
+#include<math.h>
+
+/*int isvalid(int *battlefield, int row, int column, int limit)
+{
+	int i = row - 1;
+	int t = 1;
+	for (; i >= 0; i--,t++)
+	{
+		if (column + t <= limit)
+			if (*((battlefield + i) + column + t) == 1)
+				return 0;
+		if (column - t >= 0) 
+			if(*((battlefield + i) + column - t) == 1)
+				return 0;
+		if (*((battlefield + i) + column) == 1)
+			return 0;
+	}
+	return 1;
+
+}
+
+int solve(int *battlefield, int row, int column)
+{
+	int i = 0, t = 0;
+	if (row == column+1)
+		return 1;
+	else
+	{
+		for (; i <= column; i++)
+		{
+			*((battlefield + row) + i) = 1;
+			if (isvalid(battlefield, row, i, column))
+			{
+				t = solve(battlefield, row + 1, column);
+				if (t == 1)
+					return 1;
+			}
+			*((battlefield + row) + i) = 0;
+
+		}
+	}
 	return 0;
 }
+
+int solve_nsnipers(int *battlefield, int n){
+	int m=0;
+	int sol=solve(battlefield, m, n-1);
+	return sol;
+}*/
+
+int isvalid(int *battlefield, int cell_row, int cell_column, int limit)
+{
+	int i = 0,j=0;
+	for (i = 0; i < cell_row; i++)
+		if (*((battlefield + i*(limit + 1)) + cell_column) == 1)
+			return 0;
+	for (i = 0; i < cell_row; i++)
+	{
+		for (j = 0; j <= limit; j++)
+		{
+			if (abs(i - cell_row) == abs(j - cell_column))
+				if (*((battlefield + i*(limit + 1)) + j) == 1)
+					return 0;
+		}
+	}
+	return 1;
+}
+
+int solve(int *battlefield, int row, int limit)
+{
+	int i = 0;
+	if (row == limit + 1)
+		return 1;
+	else
+	{
+		for (i = 0; i <= limit; i++)
+		{
+			if (isvalid(battlefield, row, i, limit))
+			{
+				*((battlefield + row*(limit + 1)) + i) = 1;
+				if (solve(battlefield, row + 1, limit))
+					return 1;
+				*((battlefield + row*(limit+1)) + i) = 0;
+			}
+		}
+		return 0;
+	}
+}
+
+int solve_nsnipers(int *battlefield, int n)
+{
+	if (battlefield == NULL)
+		return 0;
+	int m = 0;
+	int sol = solve(battlefield, m, n - 1);
+	if (sol)
+		return 1;
+	else
+		return 0;
+}
+
+
+
+

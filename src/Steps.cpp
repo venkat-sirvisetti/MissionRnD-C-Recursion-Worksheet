@@ -23,8 +23,35 @@
 */
 #include "stdafx.h"
 
+void count_steps(int sum, int *path, int *count)
+{
+	int i = 1;
+	if (*path > sum)
+		return;
+	else if (*path == sum)
+	{
+		*count += 1;
+		return;
+	}
+	else
+	{
+		for (; i <= 2; i++)
+		{
+			*path += i;
+			count_steps(sum, path, count);
+			*path -= i;
+		}
+	}
+
+
+}
+
 
 int get_steps(int s)
 {
-	return 0;
+	int path = 0;
+	int count = 0;
+	count_steps(s,&path,&count);
+	return count;
 }
+
